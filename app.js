@@ -1,4 +1,4 @@
-var previewcontent = $( "#content" ).load("/posts/1/1.html p#post", function(){
+var previewcontent = $( "#content" ).load("/posts/2/2.html p#post", function(){
     $(".img").remove();
     let text = $("#post").clone().remove().end().text();
     text = text.slice(0, 400);
@@ -15,7 +15,7 @@ var previewcontent = $( "#content" ).load("/posts/1/1.html p#post", function(){
     })
 });
 
-var previewtitle = $( "#title" ).load("/posts/1/1.html div.title-container", function(){
+var previewtitle = $( "#title" ).load("/posts/2/2.html div.title-container", function(){
     $(".title-container").css({
         'padding': '3% 0'
     })
