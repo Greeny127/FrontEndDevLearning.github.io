@@ -1,0 +1,28 @@
+.startingMessage {
+  font-family: monospace;
+  color: white;
+  text-align: center;
+  line-height: 100vh;
+}
+
+.startingMessage_hide {
+  opacity: 0;
+}
+
+.fadeinDiv {
+  position: absolute;
+  background-color: black;
+  height: 100vh;
+  width: 100vw;
+  opacity: 1;
+  z-index: 10;
+}
+
+.fadeinDiv_true {
+  opacity: 0;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  z-index: 10;
+  transition: all 8s ease-in-out;
+}
