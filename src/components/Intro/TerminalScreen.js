@@ -12,6 +12,7 @@ import {
 import "../../styles/Intro/TerminalScreen.css";
 import background from "../../background.mp3";
 import morsemp3 from "../../morse.mp3";
+import beepmp3 from "../../beep.mp3";
 
 const calculateAge = (birthdate) => {
   var now = new Date();
@@ -89,6 +90,7 @@ function TerminalScreen({ hasStarted, hasFocused, toggleFocused }) {
   const [authenticated, setauthenticated] = useState(false);
   const [audio] = useState(new Audio(background));
   const [morse] = useState(new Audio(morsemp3));
+  const [beep] = useState(new Audio(beepmp3));
 
   const eventQueue = useEventQueue();
   const { lock, print, loading, focus, clear } = eventQueue.handlers;
@@ -101,6 +103,7 @@ function TerminalScreen({ hasStarted, hasFocused, toggleFocused }) {
 
   // For the starting loading screen
   useEffect(() => {
+    beep.play();
     lock(true); // Lock typing after component is rendered
     loading(true);
     lock(false);
@@ -165,6 +168,7 @@ function TerminalScreen({ hasStarted, hasFocused, toggleFocused }) {
               anchorWord({
                 characters: "Click To Authenticate",
                 onClick: () => {
+                  beep.play();
                   setauthenticated(true);
                 },
               }),
