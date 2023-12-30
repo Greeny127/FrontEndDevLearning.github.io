@@ -12,10 +12,9 @@
 .fadeinDiv {
   position: absolute;
   background-color: black;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   opacity: 1;
-  z-index: 10;
 }
 
 .fadeinDiv_true {

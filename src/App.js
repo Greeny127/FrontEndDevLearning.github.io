@@ -2,18 +2,38 @@ import { useState } from "react";
 import TerminalScreen from "./components/Intro/TerminalScreen";
 import ConfirmStart from "./components/Intro/ConfirmStart";
 
-import "./styles/Intro/TerminalScreen.css";
 import "./styles/App.css";
 
 function App() {
   const [clicked, setclicked] = useState(false);
+  const [started, setstarted] = useState(false);
+  const [loaded, setloaded] = useState(false);
+  const [focused, setfocused] = useState(true);
 
   const handleClicked = (action) => {
     setclicked(action);
   };
 
+  const handleFocused = (action) => {
+    setfocused(action);
+  };
+
+  const handleLoaded = (action) => {
+    setloaded(action);
+  };
+
   return (
-    <div className="App">
+    <div
+      className="App"
+      onClick={() => {
+        setfocused(false);
+      }}
+      onKeyDown={() => {
+        if (loaded) {
+          setstarted(true);
+        }
+      }}
+    >
       {
         <div className="intro_fadeout">
           <ConfirmStart toggleClicked={handleClicked} clickedState={clicked} />
@@ -21,7 +41,12 @@ function App() {
       }
       {clicked ? (
         <div className="intro_terminal_screen">
-          <TerminalScreen hasClicked={clicked} />
+          <TerminalScreen
+            hasStarted={started}
+            hasFocused={focused}
+            toggleLoaded={handleLoaded}
+            toggleFocused={handleFocused}
+          />
         </div>
       ) : null}
     </div>
