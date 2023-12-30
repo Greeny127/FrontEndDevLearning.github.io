@@ -7,7 +7,6 @@ import "./styles/App.css";
 function App() {
   const [clicked, setclicked] = useState(false);
   const [started, setstarted] = useState(false);
-  const [loaded, setloaded] = useState(false);
   const [focused, setfocused] = useState(true);
 
   const handleClicked = (action) => {
@@ -18,10 +17,6 @@ function App() {
     setfocused(action);
   };
 
-  const handleLoaded = (action) => {
-    setloaded(action);
-  };
-
   return (
     <div
       className="App"
@@ -29,9 +24,7 @@ function App() {
         setfocused(false);
       }}
       onKeyDown={() => {
-        if (loaded) {
-          setstarted(true);
-        }
+        setstarted(true);
       }}
     >
       {
@@ -44,7 +37,6 @@ function App() {
           <TerminalScreen
             hasStarted={started}
             hasFocused={focused}
-            toggleLoaded={handleLoaded}
             toggleFocused={handleFocused}
           />
         </div>

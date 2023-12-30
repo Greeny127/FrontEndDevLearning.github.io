@@ -6,6 +6,7 @@ import {
   textWord,
   commandWord,
   commandLine,
+  anchorWord,
 } from "crt-terminal";
 
 import "../../styles/Intro/TerminalScreen.css";
@@ -60,44 +61,43 @@ INTIALISING MAIN PORTFOLIO.
 `;
 const bannerText = `This experience reccomends headphones.`;
 const bootupText = `Booting from floppy...
-Loading S.O.H.A.N WEBSITE 1.0...
-Starting Portfolio...
+Loading WEBSITE 1.0.1...
 
 Greeny127 is testing extended memory...done.
 C:\\>LH /L:0;1,45456 /S C:\\DOS\\BROWSER.EXE
 C:\\>LH /L:0;2,31072 /S C:\\DOS\\CATS.COM
 C:\\>LH /L:0;3,25088 /S C:\\DOS\\NOTAVIRUS.COM
-C:\\>LH /L:0;4,20480 /S C:\\DOS\\AVIRUS /D:MSCD001
+C:\\>LH /L:0;4,20480 /S C:\\DOS\\AVIRUS.COM
 C:\\>SET BLASTER=A220 I5 D1 H5 P330 E620 T6
-C:\\>SET SOUND=C:\SB16
-C:\\>C:\\SB16\DIAGNOSE /S
-C:\\>C:\\SB16\AWEUTIL /S
-C:\\>C:\\SB16\MIXERSET /P /Q
-C:\\>C:\\NC\NC.EXE
+C:\\>SET SOUND=C:\\SB16
+C:\\>C:\\SB16\\DIAGNOSE /S
+C:\\>C:\\SB16\\AWEUTIL /S
+C:\\>C:\\SB16\\MIXERSET /P /Q
+C:\\>C:\\NC\\NC.EXE
 
-C:\>Loading the disk cache utility from developers memories.
-C:\>Loading the mouse driver BRAIN.COM into high memory area to prevent crash of developer.
-C:\>Loading the command line editing utility DOSKEY.COM into high memory area with 25088 bytes of memory.
-C:\>(DEPRECATED - USE WiFi) Loading the CD-ROM driver MSCDEX.EXE into high memory area with 20480 bytes of memory and assigning the drive letter MSCD001.
-C:\>Setting the environment variables for the sound card - (I worked hard on this :c)
-C:\>Setting the environment variable SOUND to the directory C:\SB16 where the sound card drivers and utilities are located.
+Loading sanity path for developer.
+Loading developer memories - 2056kb.
+Creating file containing deviceid and hash.
+Loading the CD-ROM driver MSCDEX.EXE with "Hunter X Hunter" into high memory area with 20480 bytes of memory. (DEPRECATED)
+Setting the environment variables for the program - (I worked hard on this :c)
+Setting authentication to allow access.
 
+PLEASE WAIT`;
 
-PLEASE WAIT.`;
-
-function TerminalScreen({
-  hasStarted,
-  hasFocused,
-  toggleLoaded,
-  toggleFocused,
-}) {
+function TerminalScreen({ hasStarted, hasFocused, toggleFocused }) {
   const [textSpeed, settextSpeed] = useState(1);
-  const [printing, setprinting] = useState(false);
+  const [authenticated, setauthenticated] = useState(false);
   const [audio] = useState(new Audio(background));
   const [morse] = useState(new Audio(morsemp3));
 
   const eventQueue = useEventQueue();
   const { lock, print, loading, focus, clear } = eventQueue.handlers;
+
+  // For retaining focus on terminal
+  useEffect(() => {
+    focus();
+    toggleFocused(true);
+  }, [hasFocused]);
 
   // For the starting loading screen
   useEffect(() => {
@@ -115,7 +115,7 @@ function TerminalScreen({
         commandLine({
           words: [
             commandWord({
-              characters: "Press ANY KEY to start.",
+              characters: "Press ANY KEY to load program.",
               prompt: "> ",
             }),
           ],
@@ -123,21 +123,12 @@ function TerminalScreen({
       ]);
     }, 6500);
 
-    toggleLoaded(true);
-
     return () => {
       clearTimeout(timeout);
     };
   }, []);
 
-  // For retaining focus on terminal
-  useEffect(() => {
-    focus();
-    toggleFocused(true);
-    console.log("hiii");
-  }, [hasFocused]);
-
-  // For the bootup sequence after loading
+  // For the bootup sequence after loading + flag for second sequence
   useEffect(() => {
     if (hasStarted) {
       settextSpeed(5);
@@ -151,29 +142,92 @@ function TerminalScreen({
         }),
       ]);
 
+      // After boot up sequence, add flag to start next sequence
       loading(true);
 
       const timeout = setTimeout(() => {
-        clear();
-        morse.play();
-        settextSpeed(1);
+        loading(false);
 
         print([
-          textLine({
+          commandLine({
             words: [
-              textWord({
-                characters: introText,
+              commandWord({
+                characters: "Authentication setup done.",
+                prompt: "> ",
               }),
             ],
           }),
         ]);
-      }, 16000);
+
+        print([
+          textLine({
+            words: [
+              anchorWord({
+                characters: "Click To Authenticate",
+                onClick: () => {
+                  setauthenticated(true);
+                },
+              }),
+            ],
+          }),
+        ]);
+      }, 14000);
 
       return () => {
         clearTimeout(timeout);
       };
     }
   }, [hasStarted]);
+
+  // Intro sequence 2
+  useEffect(() => {
+    if (authenticated) {
+      clear();
+      morse.play();
+      settextSpeed(1);
+
+      print([
+        textLine({
+          words: [
+            textWord({
+              characters: introText,
+            }),
+          ],
+        }),
+      ]);
+
+      loading(true);
+
+      const timeout = setTimeout(() => {
+        loading(false);
+        print([
+          commandLine({
+            words: [
+              commandWord({
+                characters: "INITIALISED PROGRAM.",
+                prompt: "> ",
+              }),
+            ],
+          }),
+        ]);
+
+        print([
+          textLine({
+            words: [
+              anchorWord({
+                characters: "Click To start program.",
+                onClick: () => {},
+              }),
+            ],
+          }),
+        ]);
+      }, 6000);
+
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+  }, [authenticated]);
 
   return (
     <Terminal
