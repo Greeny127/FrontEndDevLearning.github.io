@@ -24,7 +24,7 @@ function TerminalScreen({ hasClicked }) {
     lock(true); // Lock typing after component is rendered
     loading(true);
 
-    audio.volume = 0.3;
+    audio.volume = 0.35;
     audio.play();
 
     const timeout = setTimeout(() => {
