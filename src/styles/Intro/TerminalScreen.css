@@ -1,6 +1,7 @@
 .intro_terminal_screen {
   width: 100%;
-  height: 98vh;
+  height: 100%;
+  background-color: black;
 }
 
 .bannerText {
@@ -11,6 +12,10 @@
 .firstContinue {
   font-weight: bold;
   animation: colorRotate 6s linear 0s infinite;
+}
+
+.hide {
+  opacity: 0;
 }
 
 @keyframes colorRotate {

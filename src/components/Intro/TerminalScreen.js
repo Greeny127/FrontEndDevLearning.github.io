@@ -85,7 +85,7 @@ Setting authentication to allow access.
 
 PLEASE WAIT`;
 
-function TerminalScreen({ hasStarted, hasFocused, toggleFocused }) {
+function TerminalScreen({ hasStarted, hasFocused, toggleFocused, toggleClicked }) {
   const [textSpeed, settextSpeed] = useState(1);
   const [authenticated, setauthenticated] = useState(false);
   const [audio] = useState(new Audio(background));
@@ -220,7 +220,7 @@ function TerminalScreen({ hasStarted, hasFocused, toggleFocused }) {
             words: [
               anchorWord({
                 characters: "Click To start program.",
-                onClick: () => {},
+                onClick: () => {toggleClicked(true); audio.pause()}, //-------------------------------------------------------------------------------------------------------
               }),
             ],
           }),
@@ -234,34 +234,36 @@ function TerminalScreen({ hasStarted, hasFocused, toggleFocused }) {
   }, [authenticated]);
 
   return (
-    <Terminal
-      queue={eventQueue}
-      printer={{ charactersPerTick: textSpeed }}
-      loader={{
-        slides: [
-          "Loading",
-          "Loading.",
-          "Loading..",
-          "Loading...",
-          "Loading....",
-        ],
-      }}
-      banner={[
-        textLine({
-          className: "bannerText",
-          words: [textWord({ characters: bannerText })],
-        }),
-      ]}
-      onCommand={(command) => {
-        settextSpeed(5); // Reset typing speed
-
-        print([
+    <div className={"intro_terminal_screen"}>
+      <Terminal
+        queue={eventQueue}
+        printer={{ charactersPerTick: textSpeed }}
+        loader={{
+          slides: [
+            "Loading",
+            "Loading.",
+            "Loading..",
+            "Loading...",
+            "Loading....",
+          ],
+        }}
+        banner={[
           textLine({
-            words: [textWord({ characters: command })],
+            className: "bannerText",
+            words: [textWord({ characters: bannerText })],
           }),
-        ]);
-      }}
-    />
+        ]}
+        onCommand={(command) => {
+          settextSpeed(5); // Reset typing speed
+  
+          print([
+            textLine({
+              words: [textWord({ characters: command })],
+            }),
+          ]);
+        }}
+      />
+    </div>
   );
 }
 

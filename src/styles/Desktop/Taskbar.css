@@ -1,0 +1,42 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.taskbar-comp {
+  background: rgb(153, 153, 153);
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  height: 7vh;
+  width: 100vw;
+  user-select: none;
+}
+
+.taskbarIconImage {
+  width: 5vh;
+  padding-top: 0.8vh;
+  text-align: center;
+  margin-left: 0.6vh;
+  display: inline-block;
+}
+
+.taskbarIconNotClicked {
+  width: 7vh;
+}
+
+.taskbarIconNotClicked:hover {
+  transition: all 0.15s;
+  background-color: rgb(133, 133, 133);
+}
+
+.taskbarIconClicked:hover {
+  transition: all 0.15s;
+  background-color: rgb(133, 133, 133);
+}
+
+.taskbarIconClicked {
+  width: 7vh;
+  margin-left: 1vh;
+  border-bottom: 0.5vh solid whitesmoke;
+}

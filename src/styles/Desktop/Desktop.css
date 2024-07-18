@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+* {
+    font-family: "VT323", monospace;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.desktopIconImage {
+    width: 7vh;
+    padding-top: 0.8vh;
+    display: block;
+    cursor: pointer;
+}
+
+.desktopIconDiv {
+    width: 7vh;
+    margin: 3vh;
+    font-size: 2.3vh;
+    text-align: center;
+    user-select: none;
+}
+
+.desktopArea {
+    overflow: hidden;
+}
